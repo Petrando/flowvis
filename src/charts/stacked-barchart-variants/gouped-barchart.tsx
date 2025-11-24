@@ -145,9 +145,10 @@ export function GroupedBarChart({ data }: StackedBarChartProps) {
             <label className={styles["controls-label"]} style={{paddingRight: '12px'}}>
                 <input 
                     type="checkbox" 
-                    className={styles["controls-checkbox"]} 
+                    className={`${styles["controls-checkbox"]} ${plotted === "all"?styles.disabled:""}`} 
                     checked={isSorted}
                     onChange={(e) => setIsSorted(e.target.checked)}
+                    disabled={plotted === "all"}
                 />
                     Sort
             </label>

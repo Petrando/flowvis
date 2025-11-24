@@ -30,6 +30,10 @@
     padding-top: 0;
 }
 
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
 .controls-checkbox {
     width: 16px;
     height: 16px;
