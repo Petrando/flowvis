@@ -1,0 +1,48 @@
+{
+  "name": "reactive-charts",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Petrando Richard",
+  "main": "dist/reactive-charts.umd.js",
+  "module": "dist/reactive-charts.es.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite --config vite.config.ts --port 3000",
+    "build": "vite build --config vite.config.ts"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "packageManager": "pnpm@10.20.0",
+  "devDependencies": {
+    "@types/d3": "^7.4.3",
+    "@types/node": "^24.10.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^5.1.0",
+    "d3": "^7.9.0",
+    "d3-selection": "^3.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "peerDependencies": {
+    "d3": "^7.9.0",
+    "d3-selection": "^3.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,25 @@
+.gantt {    
+    stroke: #fff;
+    stroke-width: 0.75px;
+    transition: all;
+    transition-duration: .25s;
+    cursor: pointer;
+}
+
+.gantt:hover{
+    stroke: #f59e0b;
+    stroke-width: 1.25px;
+}
+
+.label {
+    text-anchor: center;
+    text-shadow: 0 0.5px 0 #f8fafc, 0.5px 0 0 #f8fafc, -0.5px 0 0 #f8fafc, 0 -0.5px 0 #f8fafc;    
+    pointer-events: none;    
+}
+
+.labelHover {
+    text-anchor: center;
+    pointer-events: none;
+    font-weight: bold;
+    text-shadow: 0 0.5px 0 #f8fafc, 0.5px 0 0 #f8fafc, -0.5px 0 0 #f8fafc, 0 -0.5px 0 #f8fafc;    
+}
