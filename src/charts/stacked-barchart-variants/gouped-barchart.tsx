@@ -198,7 +198,8 @@ export function GroupedBarChart({ data }: StackedBarChartProps) {
         const canvas = canvasSvg.select<SVGGElement>('.plot-area')
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        const tooltip = getTooltip(container as any);
+        const tooltip = getTooltip(container as any)
+            .style("opacity", 0);
 
         const xAxisTextClass = !isMediumScreen?stackedBarStyles.rotatedAxisText:
             stackedBarStyles.axisText;    

@@ -55,7 +55,8 @@ export function BarChart({data, colorIdx = 9}:BarchartProps) {
         const canvas = canvasSvg.select<SVGGElement>('.plot-area')
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        const tooltip = getTooltip(container as any);
+        const tooltip = getTooltip(container as any)
+            .style("opacity", 0);
 
         const x = d3
             .scaleBand()

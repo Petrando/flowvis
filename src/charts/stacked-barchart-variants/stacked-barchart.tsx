@@ -33,8 +33,7 @@ export function StackedBarChart({ data, focusOnPlot = false }: StackedBarChartPr
     
     const uiControls = useUIControls(); 
     
-    const stackData = data
-        
+    const stackData = data        
     useEffect(() => {
         setPlotted(["all"])
         setDataJustChanged(true)
@@ -257,7 +256,8 @@ export function StackedBarChart({ data, focusOnPlot = false }: StackedBarChartPr
         const canvas = canvasSvg.select<SVGGElement>('.plot-area')
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        const tooltip = getTooltip(container as any);
+        const tooltip = getTooltip(container as any)
+            .style("opacity", 0);
 
         const xAxisTextClass = !isMediumScreen?stackedBarStyles.rotatedAxisText:
             stackedBarStyles.axisText;
@@ -571,7 +571,7 @@ export function StackedBarChart({ data, focusOnPlot = false }: StackedBarChartPr
     return (
         <div 
             ref={ref} 
-            style={{ width: `${width}px`, height: `${height}px`, display:'flex', flexDirection:'column', border: "2px solid orange" }}
+            style={{ width: `${width}px`, height: `${height}px`, display:'flex', flexDirection:'column' }}
         >
             
             {uiControls
