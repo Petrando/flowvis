@@ -10,6 +10,7 @@ import { cloneObj, indexColor, basicFormat } from '../../utils';
 import styles from '../global.module.css';
 import stackedBarStyles from './stacked-barchart.module.css';
 import { LayeredData, ExtendedSeries, ExtendedSeriesPoint, StackedBarChartProps } from './types';
+import { useUIControls } from '../../hooks/useUIControls';
 
 type StackedBarChartPropsExtended =
     StackedBarChartProps & {
@@ -29,7 +30,8 @@ export function StackedBarChart({ data, focusOnPlot = false }: StackedBarChartPr
     const [justPlotted, setJustPlotted] = useState<boolean>(false)
     const [hovered, setHovered] = useState<string>("")   
     const [isSorted, setIsSorted] = useState<boolean>(false);
-    const uiControls = document?.getElementById("UI-controls"); 
+    
+    const uiControls = useUIControls(); 
     
     const stackData = data
         

@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import * as d3 from 'd3';
 import { useD3 } from '../hooks/useD3';
 import { useParentSize } from '../hooks/useParentSize';
+import { useUIControls } from '../hooks/useUIControls';
 import { Tooltip, getTooltip, moveTooltip } from '../components/tooltip';
 import { cloneObj, indexColor } from '../utils';
 import styles from './global.module.css';
@@ -18,7 +19,8 @@ export function BarChart({data, colorIdx = 9}:BarchartProps) {
     const { width, height } = parentSize;
 
     const [isSorted, setIsSorted] = useState<boolean>(false);
-    const uiControls = document?.getElementById("UI-controls");
+    
+    const uiControls = useUIControls();
 
     // Define the controls element (checkbox)
     const controls = (

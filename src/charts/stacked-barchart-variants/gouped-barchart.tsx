@@ -10,6 +10,7 @@ import { cloneObj, indexColor, basicFormat } from '../../utils';
 import styles from '../global.module.css';
 import stackedBarStyles from './stacked-barchart.module.css';
 import { LayeredData, ExtendedSeriesPoint, ExtendedSeries, StackedBarChartProps } from './types';
+import { useUIControls } from '../../hooks/useUIControls';
 
 export function GroupedBarChart({ data }: StackedBarChartProps) {
     const [ref, parentSize] = useParentSize<HTMLDivElement>();
@@ -22,7 +23,8 @@ export function GroupedBarChart({ data }: StackedBarChartProps) {
     const [justPlotted, setJustPlotted] = useState<boolean>(false)
     const [hovered, setHovered] = useState<string>("")    
     const [isSorted, setIsSorted] = useState<boolean>(false);
-    const uiControls = document?.getElementById("UI-controls");  
+    
+    const uiControls = useUIControls();  
     
     const stackData = data
     useEffect(() => {
