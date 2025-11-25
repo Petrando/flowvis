@@ -1,10 +1,10 @@
 {
-  "name": "reactive-charts",
+  "name": "flowvis",
   "version": "1.0.0",
   "description": "",
   "author": "Petrando Richard",
-  "main": "dist/reactive-charts.umd.js",
-  "module": "dist/reactive-charts.es.js",
+  "main": "dist/flowvis.umd.js",
+  "module": "dist/flowvis.es.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"

@@ -20,9 +20,9 @@ export default defineConfig(({ command, mode }) => {
       build: {
         lib: {
           entry: path.resolve(__dirname, 'src/index.ts'),
-          name: 'ReactiveCharts',
+          name: 'flowvis',
           formats: ['es', 'umd'],
-          fileName: (format) => `reactive-charts.${format}.js`
+          fileName: (format) => `flowvis.${format}.js`
         },
         rollupOptions: {
           external: ['react', 'react-dom'],
