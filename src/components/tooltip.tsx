@@ -65,7 +65,7 @@ export function moveTooltip(tooltip:any, positionProps:PositioningProps){
     const position = pixelY < 100?"bottom":"top"
     const { offsetWidth, offsetHeight } = tooltip.node() || {};
               
-    const clientWidth = document.documentElement.clientWidth
+    const clientWidth = typeof document !== 'undefined'?document.documentElement.clientWidth:0
     const baseXPos =  e.x - (offsetWidth/2); 
 
     let xPos = 0;
