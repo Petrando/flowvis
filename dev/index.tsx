@@ -1,6 +1,6 @@
 import React, { useState} from 'react';
 import { createRoot } from 'react-dom/client';
-import { Button, BarChart, PieChart, StackedBarChart, GroupedBarChart, PercentageBarChart } from '../src';
+import { BarChart, PieChart, StackedBarChart, GroupedBarChart, PercentageBarChart } from '../src';
 import { year1, year2, stackedData, stackedDataVar1, stackedDataVar2 } from '../src/data/constants';
 import { englishFreq, germanFreq, categoryDataV1, categoryDataV2, categoryDataV3 } from '../src/data/constants';
 import controlStyles from './controls.module.css'
@@ -24,9 +24,7 @@ const App = () => {
   // 
   return(
   
-    <div>
-      <h1>Testing Button Component</h1>
-      <Button onClick={() => {}}>Click Me!!!</Button>
+    <div>      
       <h2>Testing BarChart Component</h2>
       <div style={{
         width: '100%',
