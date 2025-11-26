@@ -1,4 +1,3 @@
-export { Button } from './Button';
 export { BarChart } from './charts/barchart';
 export { PieChart } from './charts/piechart';
 export { StackedBarChart } from './charts/stacked-barchart-variants/stacked-barchart';
