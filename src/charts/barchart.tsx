@@ -5,20 +5,28 @@ import { useD3 } from '../hooks/useD3';
 import { useParentSize } from '../hooks/useParentSize';
 import { useUIControls } from '../hooks/useUIControls';
 import { Tooltip, getTooltip, moveTooltip } from '../components/tooltip';
-import { cloneObj, indexColor } from '../utils';
+import { cloneObj, indexSelectedColor } from '../utils';
 import styles from './global.module.css';
 import { pointData } from '../types';
+import { useLayerIndex } from '../hooks/useLayerIndex';
 
 type BarchartProps = {
     data: pointData[];
-    colorIdx?: number;
+    color?: {
+        idx: number;
+        type?: 'fixed' | 'colorful';
+    };
 }
 
-export function BarChart({data, colorIdx = 9}:BarchartProps) {
+export function BarChart({data, color: {
+        idx = 0,               // default idx
+        type = 'fixed',        // default type
+    } = { idx: 0, type: 'fixed' }}:BarchartProps) {
     const [ref, parentSize] = useParentSize<HTMLDivElement>();    
     const { width, height } = parentSize;
 
     const [isSorted, setIsSorted] = useState<boolean>(false);
+    const layersRef = useLayerIndex(data.map(d => d.label));
     
     const uiControls = useUIControls();
 
@@ -40,6 +48,7 @@ export function BarChart({data, colorIdx = 9}:BarchartProps) {
         </div>
     );
 
+    const color = {idx, type}
     const animDuration = 750;
     const chartRef = useD3<HTMLDivElement>((container) => {
         if (width === 0 || height === 0) return;
@@ -85,6 +94,16 @@ export function BarChart({data, colorIdx = 9}:BarchartProps) {
             .attr("transform", `translate(${margin.left}, 0)`)
             .transition().duration(animDuration).call(y1Axis)
 
+        const barColor = (d: pointData) => {
+            const { idx, type } = color
+            const i = layersRef.current.findIndex(l => l === d.label);
+            if (type === 'fixed') {
+                return indexSelectedColor(idx);
+            } else {
+                return indexSelectedColor(idx + i);
+            }                
+        }
+
         const bars =  canvas
             .selectAll<SVGRectElement, pointData>(".bar")
             .data(barchartData, (d) => d.label)
@@ -95,7 +114,7 @@ export function BarChart({data, colorIdx = 9}:BarchartProps) {
                     .attr("width", x.bandwidth())
                     .attr("y", y1(0))
                     .attr("height", 0)
-                    .attr("fill", indexColor(colorIdx))
+                    .attr("fill", barColor)
                     .transition().duration(animDuration)
                     .attr("y", function(d){                                                                
                         return y1(d.value);
@@ -106,6 +125,7 @@ export function BarChart({data, colorIdx = 9}:BarchartProps) {
                 update=>{
                     let theBars = update
                         .transition().duration(animDuration)
+                        .attr("fill", barColor)
                         .attr("x", function(d) { return x(d.label) ?? 0; })
                         .attr("width", x.bandwidth())
                         .attr("y", function(d){                                                                
@@ -160,7 +180,7 @@ export function BarChart({data, colorIdx = 9}:BarchartProps) {
                     return y1(0) - y1(d.value);
                 });    
 
-    }, [data, width, height, isSorted]);
+    }, [data, color, width, height, isSorted]);
     
     return (
         <div 

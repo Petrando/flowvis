@@ -55,6 +55,11 @@ export const indexColor = (i:number, assortedColorFirst:boolean=true) => {
     return FINAL_COLOR_POOL[i % FINAL_COLOR_POOL.length];    
 }
 
+export const indexSelectedColor = (i:number) => {
+    if (i < selectedColors.length) return selectedColors[i];
+    return selectedColors[i % selectedColors.length];    
+}
+
 export const basicFormat = (num:number) => {
     return format(",")(num)
 }
