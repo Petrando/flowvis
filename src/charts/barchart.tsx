@@ -178,6 +178,7 @@ export function BarChart({data, color: {
                 }
             )
             .transition().duration(animDuration)
+                .attr("fill", barColor)
                 .attr("x", function(d) {return x(d.label) ?? 0; })
                 .attr("width", x.bandwidth())
                 .attr("y", function(d){                                                                
