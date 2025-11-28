@@ -12,7 +12,7 @@ import stackedBarStyles from './stacked-barchart.module.css';
 import { LayeredData, ExtendedSeries, ExtendedSeriesPoint, StackedBarChartProps } from './types';
 import { useUIControls } from '../../hooks/useUIControls';
 
-export function PercentageBarChart({ data }: StackedBarChartProps) {
+export function PercentageBarChart({ data, color:{idx = 0} = {idx: 0} }: StackedBarChartProps) {
     const [ref, parentSize] = useParentSize<HTMLDivElement>();
     const { width, height } = parentSize;
     const [hovered, setHovered] = useState<string>("")
@@ -41,7 +41,8 @@ export function PercentageBarChart({ data }: StackedBarChartProps) {
     }, [dataJustChanged])
 
     const chartHeight = uiControls ? height : height  - controlsHeight;
-    const renderDeps = [ width, chartHeight, plotted ]
+    const colorIdx = idx;
+    const renderDeps = [ width, chartHeight, plotted, idx ]
 
     const chartData:LayeredData[] = cloneObj(stackData);                        
     const keys = chartData.length === 0 ? [] :
@@ -73,7 +74,7 @@ export function PercentageBarChart({ data }: StackedBarChartProps) {
                     divs.append("div")
                         .attr("class", stackedBarStyles["legend-rect"])
                         .style("background", (d) => {
-                            const layerIndex = layers.current.findIndex(l => l === d)
+                            const layerIndex = layers.current.findIndex(l => l === d) + colorIdx
                             return indexColor(layerIndex);
                         })
 
@@ -101,7 +102,7 @@ export function PercentageBarChart({ data }: StackedBarChartProps) {
                             .style("opacity", 1)
                         .select(`.${stackedBarStyles["legend-rect"]}`)
                         .style("background", (d) => {
-                            const layerIndex = layers.current.findIndex(l => l === d)
+                            const layerIndex = layers.current.findIndex(l => l === d) + colorIdx
                             return indexColor(layerIndex);
                         });
 
@@ -289,7 +290,7 @@ export function PercentageBarChart({ data }: StackedBarChartProps) {
                     let g = enter.append("g")
                         .attr("class", "serie")
                         .attr("fill", function(d) {
-                            const layerIndex = layers.current.findIndex(l => l === d.key)
+                            const layerIndex = layers.current.findIndex(l => l === d.key) + colorIdx
                             return indexColor(layerIndex); 
                         })
                         .style("opacity", 1)
@@ -307,7 +308,7 @@ export function PercentageBarChart({ data }: StackedBarChartProps) {
                         })*/
                         .transition().duration(animDuration)
                         .attr("fill", function(d) {
-                            const layerIndex = layers.current.findIndex(l => l === d.key)
+                            const layerIndex = layers.current.findIndex(l => l === d.key) + colorIdx
                             return indexColor(layerIndex); 
                         })
                         .style("opacity", 1)

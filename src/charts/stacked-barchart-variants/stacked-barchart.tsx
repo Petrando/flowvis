@@ -19,7 +19,7 @@ type StackedBarChartPropsExtended =
 
 export const inactiveColor = "#d1d5db"
 
-export function StackedBarChart({ data, focusOnPlot = false }: StackedBarChartPropsExtended) {
+export function StackedBarChart({ data, focusOnPlot = false, color:{idx = 0} = {idx: 0} }: StackedBarChartPropsExtended) {
     const [ref, parentSize] = useParentSize<HTMLDivElement>();
     const { width, height } = parentSize;
     const [controlsRef, controlsSize] = useContainerSize<HTMLDivElement>();
@@ -49,7 +49,9 @@ export function StackedBarChart({ data, focusOnPlot = false }: StackedBarChartPr
     }, [dataJustChanged])    
 
     const chartHeight = uiControls ? height : height  - controlsHeight;
-    const renderDeps = [ width, chartHeight, plotted ]
+
+    const colorIdx = idx
+    const renderDeps = [ width, chartHeight, plotted, colorIdx ]
 
     const chartData:LayeredData[] = cloneObj(stackData);                        
     const keys = chartData.length === 0 ? [] :
@@ -57,6 +59,7 @@ export function StackedBarChart({ data, focusOnPlot = false }: StackedBarChartPr
             .filter((key) => key !== "label" && key !== "total") as string[];
     const layersRef = useLayerIndex(keys)       
 
+    
     const legendRef = useD3<HTMLDivElement>((container) => { 
         if(dataJustChanged){
             return
@@ -87,7 +90,7 @@ export function StackedBarChart({ data, focusOnPlot = false }: StackedBarChartPr
                             if(!focusOnPlot && plotted.includes(d)){
                                 return inactiveColor
                             }
-                            const layerIndex = layersRef.current.findIndex(l => l === d)
+                            const layerIndex = layersRef.current.findIndex(l => l === d) + colorIdx
                             return indexColor(layerIndex);
                         })
                     divs.append("span")
@@ -122,7 +125,7 @@ export function StackedBarChart({ data, focusOnPlot = false }: StackedBarChartPr
                             if(!focusOnPlot && plotted.includes(d)){
                                 return inactiveColor
                             }
-                            const layerIndex = layersRef.current.findIndex(l => l === d)
+                            const layerIndex = layersRef.current.findIndex(l => l === d) + colorIdx
                             return indexColor(layerIndex);
                         });
 
@@ -333,7 +336,7 @@ export function StackedBarChart({ data, focusOnPlot = false }: StackedBarChartPr
                         .append("g")
                         .attr("class", "serie")
                         .attr("fill", (d) => {
-                            const layerIndex = layersRef.current.findIndex(l => l === d.key)
+                            const layerIndex = layersRef.current.findIndex(l => l === d.key) + colorIdx
                             const color = indexColor(layerIndex)
                             
                             return color
@@ -374,7 +377,7 @@ export function StackedBarChart({ data, focusOnPlot = false }: StackedBarChartPr
                         .transition()
                         .duration(animDuration)
                         .attr("fill", (d) => {
-                            const layerIndex = layersRef.current.findIndex(l => l === d.key)
+                            const layerIndex = layersRef.current.findIndex(l => l === d.key) + colorIdx
                             const color = indexColor(layerIndex)
                             
                             return color
