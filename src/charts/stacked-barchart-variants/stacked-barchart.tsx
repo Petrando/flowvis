@@ -39,6 +39,8 @@ export function StackedBarChart({ data, focusOnPlot = false, color:{idx = 0} = {
         setDataJustChanged(true)
     }, [stackData])
 
+    useEffect(() => {setPlotted(["all"])}, [focusOnPlot])
+
     const animDuration = 750;
     useEffect(()=>{
         let timer: ReturnType<typeof setTimeout>;
@@ -51,14 +53,13 @@ export function StackedBarChart({ data, focusOnPlot = false, color:{idx = 0} = {
     const chartHeight = uiControls ? height : height  - controlsHeight;
 
     const colorIdx = idx
-    const renderDeps = [ width, chartHeight, plotted, colorIdx ]
+    const renderDeps = [ width, chartHeight, plotted, colorIdx, focusOnPlot ]
 
     const chartData:LayeredData[] = cloneObj(stackData);                        
     const keys = chartData.length === 0 ? [] :
         (Object.keys(chartData[0]) as (keyof LayeredData)[])
             .filter((key) => key !== "label" && key !== "total") as string[];
     const layersRef = useLayerIndex(keys)       
-
     
     const legendRef = useD3<HTMLDivElement>((container) => { 
         if(dataJustChanged){
@@ -569,7 +570,7 @@ export function StackedBarChart({ data, focusOnPlot = false, color:{idx = 0} = {
                     tooltip.style("opacity", 0);
                 })
 
-    }, [ ...renderDeps, isSorted, chartData, keys, hovered, focusOnPlot, justPlotted, dataJustChanged ]);
+    }, [ ...renderDeps, isSorted, chartData, keys, hovered, justPlotted, dataJustChanged ]);
             
     return (
         <div 
