@@ -278,8 +278,13 @@ export function GroupedBarChart({ data, color:{idx = 0} = {idx: 0} }: StackedBar
         );
 
         const updateRectClass = (d:ExtendedSeriesPoint) => {
-                if(hovered !== "" && hovered === d.barKey){
-                    return `rect ${stackedBarStyles.rectLegendHovered}`
+                if(hovered !== ""){
+                    return `rect 
+                        ${
+                            hovered === d.barKey?
+                            stackedBarStyles.rectLegendHovered:
+                            stackedBarStyles.rectLegendNotHovered
+                        }`
                 }
                 return `rect ${stackedBarStyles.rect}`
 

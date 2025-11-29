@@ -128,15 +128,20 @@
 }
 
 .rectCardLegendHovered {
-    stroke: #3f3f46;
+    stroke: #0d9488;
     stroke-width: 1;
     stroke-dasharray: none;
 }
 
 .rectLegendHovered {
-    stroke: #3f3f46;
-    stroke-width: 1.5;
+    stroke: #0d9488;
+    stroke-width: 2;
     stroke-dasharray: none;
+}
+
+.rectLegendNotHovered {
+    stroke: transparent;
+    stroke-width: 2;
 }
 
 .rotatedAxisText {
