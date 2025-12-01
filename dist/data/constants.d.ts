@@ -1,3 +1,4 @@
+export declare const inactiveColor = "#d1d5db";
 export declare const englishFreq: {
     label: string;
     value: number;
