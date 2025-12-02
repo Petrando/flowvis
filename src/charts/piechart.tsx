@@ -351,7 +351,7 @@ export function PieChart({data, innerRadius = 0, sortWithLegends = false, colorI
                     height: isWide ? '100%' : height > 400?'180px':`100px`,
                     flexShrink: 0,
                     overflowY: 'auto',
-                    background: 'rgba(0,0,0,0.03)',
+                    background: 'rgba(255, 255, 255, 0.8)', 
                     borderLeft: isWide ? '1px solid #ddd' : 'none',
                     borderTop: !isWide ? '1px solid #ddd' : 'none',
                     padding: '0px',
