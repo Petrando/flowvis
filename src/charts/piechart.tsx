@@ -366,7 +366,8 @@ export function PieChart({data, innerRadius = 0, sortWithLegends = false, colorI
                         gap: '6px',
                         padding: '8px 8px 16px 8px',
                         boxSizing: 'border-box',
-                        position: 'relative',                        
+                        position: 'relative', 
+                        background: 'rgba(255, 255, 255, 0.8)'                       
                     }}
                 />
             </div>
