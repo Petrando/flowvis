@@ -299,21 +299,19 @@ export function StackedBarChart({ data, focusOnPlot = false, colorIdx = 0 }: Sta
             .attr("dx", !isMediumScreen ? "-.8em" : "0em")
             .attr("class", xAxisTextClass);
 
-        const y: d3.ScaleLinear<number, number> = d3.scaleLinear()
-            .range([graphHeight, 0]);
-            
         const yMax = focusOnPlot?(plotted[0] === "all"?
                 d3.max(chartData, (d: LayeredData) => d.total):
                     d3.max(chartData, (d: LayeredData) => (d[plotted[0]] as number))):
-                d3.max(chartData, (d: LayeredData) => d.total);            
-                                                
-        y.domain([0, yMax ?? 0]);        
+                d3.max(chartData, (d: LayeredData) => d.total); 
+
+        const y: d3.ScaleLinear<number, number> = d3.scaleLinear()
+            .domain([0, yMax ?? 0])
+            .range([graphHeight, 0]);                                                                                   
 
         const yAxis = d3.axisLeft(y).ticks(null, "s");            
                                         
         canvas.select<SVGGElement>(".y-axis")  
-            .attr("transform", `translate(0,0)`)
-            .style("color", "steelblue")          
+            .attr("transform", `translate(0,0)`)               
                 .transition().duration(isFirstRender?0:animDuration)
             .call(yAxis)
 

@@ -236,15 +236,12 @@ export function GroupedBarChart({ data, colorIdx = 0 }: StackedBarChartProps) {
             .attr("dx", !isMediumScreen ? "-.8em" : "0em")
             .attr("class", xAxisTextClass);
 
-        const y = d3.scaleLinear()
-            .range([graphHeight, 0]);
-            
-       /*const yMax = plotted === "all"?
+        /*const yMax = plotted === "all"?
                 d3.max(chartData, d => d3.max(
                     Object.entries(d)
                     .filter(d => d[0]!=="total" && d[0]!=="label"), d => (d as any)[1])):
-                        d3.max(chartData, d=>(d[plotted] as number));*/               
-                                                
+                        d3.max(chartData, d=>(d[plotted] as number));*/ 
+
         const yMax =
             plotted === "all"
                 ? d3.max(chartData, d =>
@@ -254,14 +251,15 @@ export function GroupedBarChart({ data, colorIdx = 0 }: StackedBarChartProps) {
                         .map(([, value]) => value as number)     // value is number | string | undefined
                     )
                 )
-                : d3.max(chartData, d => d[plotted] as number);
-        y.domain([0, yMax ?? 0]);        
-
+                : d3.max(chartData, d => d[plotted] as number);        
+        const y = d3.scaleLinear()
+            .domain([0, yMax ?? 0])
+            .range([graphHeight, 0]);
+                                                                                                
         const yAxis = d3.axisLeft(y).ticks(null, "s");            
                                 
         canvas.select<SVGGElement>(".y-axis")  
-            .attr("transform", `translate(0,0)`)
-            .style("color", "steelblue")          
+            .attr("transform", `translate(0,0)`)                     
                 .transition().duration(animDuration)
             .call(yAxis)
 

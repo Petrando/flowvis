@@ -93,7 +93,7 @@ export function BarChart({data, color: {
 
         const y1 = d3
             .scaleLinear()
-            .domain([0, d3.max(barchartData, (d/*:barchartDataI*/) => d.value) ?? 0])
+            .domain([0, d3.max(barchartData, (d) => d.value) ?? 0])
             .rangeRound([height - margin.bottom, margin.top]);                   
 
         const y1Axis = d3.axisLeft(y1).ticks(null, "s")                 

@@ -214,18 +214,16 @@ export function PercentageBarChart({ data, colorIdx = 0 }: StackedBarChartProps)
             .attr("dx", !isMediumScreen ? "-.8em" : "0em")
             .attr("class", xAxisTextClass);
 
+        const yMax = d3.max(chartData, (d: LayeredData) => d.total)                                                                   
+
         const y = d3.scaleLinear()
-            .range([graphHeight, 0]);
-            
-        const yMax = d3.max(chartData, (d: LayeredData) => d.total)           
-                                                
-        y.domain([0, isPercentage?1:yMax || 0]).nice();        
+            .domain([0, isPercentage?1:yMax || 0]).nice()
+            .range([graphHeight, 0]);                            
 
         const yAxis = d3.axisLeft(y).ticks(null, isPercentage?".0%":"s");            
                                 
         canvas.select<SVGGElement>(".y-axis")  
-            .attr("transform", `translate(0,0)`)
-            .style("color", "steelblue")          
+            .attr("transform", `translate(0,0)`)                      
                 .transition().duration(animDuration)
             .call(yAxis)
 
