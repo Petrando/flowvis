@@ -4,7 +4,7 @@
 It is designed to simplify chart creation in modern React apps while retaining the full power of D3 under the hood.
 
 ## ✨ Features
-
+- Full typescript
 - Easy-to-use React components for common chart types  
 - Smooth animated transitions  
 - Responsive charts that auto-fit their containers  
