@@ -20,7 +20,7 @@ type StackedBarChartPropsExtended =
 
 
 
-export function StackedBarChart({ data, focusOnPlot = false, color:{idx = 0} = {idx: 0} }: StackedBarChartPropsExtended) {
+export function StackedBarChart({ data, focusOnPlot = false, colorIdx = 0 }: StackedBarChartPropsExtended) {
     const [ref, parentSize] = useParentSize<HTMLDivElement>();
     const { width, height } = parentSize;
     const [controlsRef, controlsSize] = useContainerSize<HTMLDivElement>();
@@ -54,7 +54,6 @@ export function StackedBarChart({ data, focusOnPlot = false, color:{idx = 0} = {
 
     const chartHeight = uiControls ? height : height  - controlsHeight;
 
-    const colorIdx = idx
     const renderDeps = [ width, chartHeight, plotted, colorIdx, focusOnPlot ]
 
     const chartData:LayeredData[] = cloneObj(stackData);                        

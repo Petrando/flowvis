@@ -13,7 +13,7 @@ import stackedBarStyles from './stacked-barchart.module.css';
 import { LayeredData, ExtendedSeries, ExtendedSeriesPoint, StackedBarChartProps } from './types';
 import { useUIControls } from '../../hooks/useUIControls';
 
-export function PercentageBarChart({ data, color:{idx = 0} = {idx: 0} }: StackedBarChartProps) {
+export function PercentageBarChart({ data, colorIdx = 0 }: StackedBarChartProps) {
     const [ref, parentSize] = useParentSize<HTMLDivElement>();
     const { width, height } = parentSize;
     const [hovered, setHovered] = useState<string>("")
@@ -42,8 +42,8 @@ export function PercentageBarChart({ data, color:{idx = 0} = {idx: 0} }: Stacked
     }, [dataJustChanged])
 
     const chartHeight = uiControls ? height : height  - controlsHeight;
-    const colorIdx = idx;
-    const renderDeps = [ width, chartHeight, plotted, idx ]
+    
+    const renderDeps = [ width, chartHeight, plotted, colorIdx ]
 
     const chartData:LayeredData[] = cloneObj(stackData);                        
     const keys = chartData.length === 0 ? [] :
