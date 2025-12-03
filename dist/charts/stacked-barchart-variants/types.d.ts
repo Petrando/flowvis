@@ -16,7 +16,5 @@ export type ExtendedSeries = ExtendedSeriesPoint[] & {
 };
 export interface StackedBarChartProps {
     data: LayeredData[];
-    color?: {
-        idx?: number;
-    };
+    colorIdx?: number;
 }
