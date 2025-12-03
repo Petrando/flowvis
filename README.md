@@ -28,3 +28,5 @@ Render the chart inside a container with explicit width and height:
   <BarChart data={[]} />
 </div>
 ```
+**Read the full documentation**
+# Visit the [flowvis documentation](https://flowvis-docs.vercel.app/).
