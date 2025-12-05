@@ -1,9 +1,9 @@
 # flowvis
 
-![Demo](./media/pie.gif)
-
 **flowvis** is a lightweight React.js library for rendering **interactive, responsive, and animated D3.js charts**.  
 It is designed to simplify chart creation in modern React apps while retaining the full power of D3 under the hood.
+
+![Demo](./media/pie.gif)
 
 ## ✨ Features
 - Full typescript
