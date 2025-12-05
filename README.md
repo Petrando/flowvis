@@ -10,7 +10,7 @@
 **flowvis** is a lightweight React.js library for rendering **interactive, responsive, and animated D3.js charts**.  
 It is designed to simplify chart creation in modern React apps while retaining the full power of D3 under the hood.
 
-![Demo](./media/Pie.gif)
+![Demo](https://raw.githubusercontent.com/Petrando/flowvis/master/media/Pie.gif)
 
 ## ✨ Features
 - Full typescript
@@ -102,7 +102,7 @@ export default function StackedBarChartExample() {
   );
 }
 ```
-![Demo](./media/StackedBarChart.gif)
+![Demo](https://raw.githubusercontent.com/Petrando/flowvis/master/media/StackedBarChart.gif)
 
 For full explanations on the options and properties, with live demo:
 ### Visit the [flowvis documentation](https://flowvis-docs.vercel.app/).
