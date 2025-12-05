@@ -1,5 +1,12 @@
 # flowvis
 
+[![npm version](https://img.shields.io/npm/v/flowvis)](https://www.npmjs.com/package/flowvis)
+[![npm downloads](https://img.shields.io/npm/dw/flowvis)](https://www.npmjs.com/package/flowvis)
+[![bundlephobia](https://img.shields.io/bundlephobia/minzip/flowvis)](https://bundlephobia.com/package/flowvis)
+[![GitHub stars](https://img.shields.io/github/stars/petrando/flowvis)](https://github.com/petrando/flowvis)
+[![license](https://img.shields.io/npm/l/flowvis)](./LICENSE)
+
+
 **flowvis** is a lightweight React.js library for rendering **interactive, responsive, and animated D3.js charts**.  
 It is designed to simplify chart creation in modern React apps while retaining the full power of D3 under the hood.
 
