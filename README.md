@@ -38,7 +38,7 @@ Render the chart inside a container with explicit width and height:
 </div>
 ```
 
-## Example: sortabe stacked bar chart
+## Example: sortable stacked bar chart
 ```js
 import { StackedBarChart } from "flowvis"; 
 import 'flowvis/dist/flowvis.css';
