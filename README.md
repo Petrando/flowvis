@@ -104,9 +104,8 @@ export default function StackedBarChartExample() {
 ```
 ![Demo](./media/StackedBarChart.gif)
 
-**Read the full documentation**
+For full explanations on the options and properties, with live demo:
 ### Visit the [flowvis documentation](https://flowvis-docs.vercel.app/).
-For full explanations on the options and properties, with live demo
 
-
-## the source code at [github repo](https://github.com/Petrando/flowvis)
+Or you can grab the source code at:
+## the [github repo](https://github.com/Petrando/flowvis)
