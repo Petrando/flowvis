@@ -239,15 +239,7 @@ export function GroupedBarChart({ data, colorIdx = 0, orientation = 'horizontal'
         const valueScale = d3.scaleLinear()
             .domain(orientation === 'horizontal'?[0, valueMax ?? 0]:[0, valueMax ?? 0])
             .range(orientation === 'horizontal'?[graphHeight, 0]:[0, graphWidth]);
-
-        const xLabels = sortedData.map(function(d: LayeredData) { return d.label; });        
-        
-        const x: d3.ScaleBand<string> = d3.scaleBand<string>()
-            .domain(xLabels)
-            .rangeRound([0, graphWidth])
-            .paddingInner(0.1)
-            .align(0.2)                            
-        
+                                                   
         const xAxis = orientation === 'horizontal' 
                     ?d3.axisBottom(labelScale)
                         .tickValues(labelScale.domain())
@@ -264,21 +256,7 @@ export function GroupedBarChart({ data, colorIdx = 0, orientation = 'horizontal'
             .style("cursor", "pointer")
             .attr("dy", !isMediumScreen ? ".20em" : "1em")
             .attr("dx", !isMediumScreen ? "-.8em" : "0em")
-            .attr("class", xAxisTextClass);        
-
-        const yMax =
-            plotted === "all"
-                ? d3.max(chartData, d =>
-                    d3.max(
-                    Object.entries(d)
-                        .filter(([key]) => key !== "total" && key !== "label")
-                        .map(([, value]) => value as number)     // value is number | string | undefined
-                    )
-                )
-                : d3.max(chartData, d => d[plotted] as number);        
-        const y = d3.scaleLinear()
-            .domain([0, yMax ?? 0])
-            .range([graphHeight, 0]);
+            .attr("class", xAxisTextClass);                      
                                                                                                 
         const yAxis = orientation === 'horizontal'
             ? d3.axisLeft(valueScale)
@@ -522,7 +500,7 @@ export function GroupedBarChart({ data, colorIdx = 0, orientation = 'horizontal'
                         .filter(dText=>dText === d.data.label).attr("class", xAxisTextClass)
                 })
                 .on("mousemove", (e, d)=>{
-                    moveTooltip(tooltip, {e, svg:svgNode as SVGSVGElement, yScale: y})
+                    moveTooltip(tooltip, {e, svg:svgNode as SVGSVGElement, yScale: valueScale})
                 })
                 .on("mouseout", function(e, d){
                     d3.select(orientation === "horizontal"?".x-axis":".y-axis").selectAll("text")
