@@ -15,15 +15,19 @@ import { useLayerIndex } from '../hooks/useLayerIndex';
 type BarchartProps = {
     data: pointData[];
     color?: {
-        idx: number;
+        idx?: number;
         type?: 'fixed' | 'colorful';
     };
+    orientation?: 'horizontal' | 'vertical';
 }
 
-export function BarChart({data, color: {
+export function BarChart({
+    data, 
+    color: {
         idx = 0,               // default idx
         type = 'fixed',        // default type
-    } = { idx: 0, type: 'fixed' }}:BarchartProps) {
+    } = { idx: 0, type: 'fixed' },
+    orientation = 'horizontal'}:BarchartProps) {
     const [ref, parentSize] = useParentSize<HTMLDivElement>();    
     const { width, height } = parentSize;
 
@@ -55,7 +59,12 @@ export function BarChart({data, color: {
     const chartRef = useD3<HTMLDivElement>((container) => {
         if (width === 0 || height === 0) return;
         
-        const margin = { top: 20, right: 30, bottom: 50, left: 25 };
+        const margin = { 
+            top: 20, 
+            right: 30, 
+            bottom: orientation==='horizontal'?50:30, 
+            left: orientation === 'horizontal'?25:50
+        };
         
         const barchartData:pointData[] = isSorted?
             cloneObj(data).sort((a:pointData,b:pointData)=>b.value - a.value)
@@ -73,20 +82,37 @@ export function BarChart({data, color: {
         const xAxisTextClass = !isMediumScreen?barchartStyles.rotatedAxisText:
                     barchartStyles.axisText;
 
+        const graphWidth = width - margin.left - margin.right
+        const graphHeight = height - margin.top - margin.bottom
+        const labelScale = d3
+            .scaleBand()
+            .domain(barchartData.map(d => d.label))
+            .rangeRound(orientation === 'horizontal'?
+                [0, graphWidth]:[graphHeight, 0])
+            .padding(0.1)
+
+        const valueScale = d3
+            .scaleLinear()
+            .domain([0, d3.max(barchartData, (d) => d.value) ?? 0])
+            .rangeRound(orientation === 'horizontal'?
+                [graphHeight, 0]:[0, graphWidth])
+
         const x = d3
             .scaleBand()
             .domain(barchartData.map(d => d.label))
             .rangeRound([margin.left, width - margin.right])
             .padding(0.1);
 
-        const xAxis = d3
-            .axisBottom(x)
-            .tickValues(x.domain())
-            .scale(x)
-            .tickSizeOuter(0);        
+        const xAxis = orientation === 'horizontal'?
+            d3
+                .axisBottom(labelScale)
+                .tickValues(labelScale.domain())
+                .scale(labelScale)
+                .tickSizeOuter(0):
+            d3.axisBottom(valueScale).ticks(null, "s");        
 
         canvas.select<SVGGElement>(".x-axis")
-            .attr("transform", `translate(0, ${height - margin.bottom})`)
+            .attr("transform", `translate(0, ${graphHeight})`)
             .transition().duration(animDuration).call(xAxis)
             .selectAll("text")
             .attr("class", xAxisTextClass);
@@ -96,10 +122,12 @@ export function BarChart({data, color: {
             .domain([0, d3.max(barchartData, (d) => d.value) ?? 0])
             .rangeRound([height - margin.bottom, margin.top]);                   
 
-        const y1Axis = d3.axisLeft(y1).ticks(null, "s")                 
+        const y1Axis = orientation === 'horizontal'?
+            d3.axisLeft(valueScale).ticks(null, "s"):
+            d3.axisLeft(labelScale).tickSizeOuter(0)                 
                     
         canvas.select<SVGGElement>(".y-axis")
-            .attr("transform", `translate(${margin.left}, 0)`)
+            .attr("transform", `translate(0, 0)`)
             .transition().duration(animDuration).call(y1Axis)
 
         const barColor = (d: pointData) => {
@@ -118,32 +146,59 @@ export function BarChart({data, color: {
             .join(
                 enter=>enter.append("rect")
                 .attr("class", "bar")
-                    .attr("x", function(d) { return x(d.label) ?? 0; })
-                    .attr("width", x.bandwidth())
-                    .attr("y", y1(0))
-                    .attr("height", 0)
+                    .attr("x", function(d) { 
+                        if(orientation === 'horizontal'){
+                            return labelScale(d.label) ?? 0; 
+                        }else{
+                            return valueScale(0);
+                        }                        
+                    })
+                    .attr("width", function(d){
+                        if(orientation === 'horizontal'){
+                            return labelScale.bandwidth()
+                        }else{
+                            return 0
+                        }
+                    })
+                    .attr("y", function(d){
+                        if(orientation === 'horizontal'){
+                            return valueScale(0)
+                        }else{
+                            return labelScale(d.label) ?? 0;
+                        }
+                    })
+                    .attr("height", function(){
+                        if(orientation === "horizontal"){
+                            return 0
+                        }else{
+                            return labelScale.bandwidth()
+                        }
+                    })
                     .attr("fill", barColor)
                     .transition().duration(animDuration)
-                    .attr("y", function(d){                                                                
-                        return y1(d.value);
+                    .attr("y", function(d){
+                        if(orientation === 'horizontal'){
+                            return valueScale(d.value);
+                        }else{
+                            return labelScale(d.label) ?? 0;
+                        }                                                                
+                        
                     })
-                    .attr("height", function(d){                                                                                        
-                        return y1(0) - y1(d.value);
+                    .attr("width", function(d){
+                        if(orientation === 'horizontal'){
+                            return labelScale.bandwidth()
+                        }else{
+                            return valueScale(d.value)
+                        }
+                    })
+                    .attr("height", function(d){  
+                        if(orientation === 'horizontal'){
+                            return valueScale(0) - valueScale(d.value);
+                        }else{
+                            return labelScale.bandwidth()
+                        }                                                                                                              
                     }),
-                update=>{
-                    let theBars = update
-                        .transition().duration(animDuration)
-                        .attr("fill", barColor)
-                        .attr("x", function(d) { return x(d.label) ?? 0; })
-                        .attr("width", x.bandwidth())
-                        .attr("y", function(d){                                                                
-                            return y1(d.value);
-                        })
-                        .attr("height", function(d){                                                                                        
-                            return y1(0) - y1(d.value);
-                        })
-                    return theBars
-                },
+                undefined,
                 exit=>exit                  
                     .transition().duration(animDuration)
                 .attr("fill", inactiveColor)
@@ -164,7 +219,7 @@ export function BarChart({data, color: {
                 }
             )      
             .on("mousemove", (e, d)=>{
-                moveTooltip(tooltip, {e, svg:svgNode as SVGSVGElement, yScale: y1})
+                moveTooltip(tooltip, {e, svg:svgNode as SVGSVGElement, yScale: valueScale})
             })
             .on("mouseout", (e, d)=>{
                 canvas.selectAll("rect.bar")
@@ -180,16 +235,37 @@ export function BarChart({data, color: {
             )
             .transition().duration(animDuration)
                 .attr("fill", barColor)
-                .attr("x", function(d) {return x(d.label) ?? 0; })
-                .attr("width", x.bandwidth())
-                .attr("y", function(d){                                                                
-                    return y1(d.value);
+                .attr("x", function(d) {
+                    if(orientation === 'horizontal'){
+                            return labelScale(d.label) ?? 0; 
+                        }else{
+                            return valueScale(0);
+                        }
+                 })
+                .attr("width", function(d){
+                    if(orientation === 'horizontal'){
+                        return labelScale.bandwidth()
+                    }else{
+                        return valueScale(d.value)
+                    }
                 })
-                .attr("height", function(d){                                                                                        
-                    return y1(0) - y1(d.value);
+                .attr("y", function(d){
+                    if(orientation === 'horizontal'){
+                        return valueScale(d.value);
+                    }else{
+                        return labelScale(d.label) ?? 0;
+                    }                                                                
+                    
+                })
+                .attr("height", function(d){  
+                    if(orientation === 'horizontal'){
+                        return valueScale(0) - valueScale(d.value);
+                    }else{
+                        return labelScale.bandwidth()
+                    }                                                                                                              
                 });    
 
-    }, [data, color, width, height, isSorted]);
+    }, [data, color, width, height, isSorted, orientation]);
     
     return (
         <div 
